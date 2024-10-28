@@ -1,0 +1,698 @@
+﻿<Window x:Class="all_on_whatsapp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:local="clr-namespace:all_on_whatsapp" xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf" xmlns:hc="https://handyorg.github.io/handycontrol"
+        mc:Ignorable="d"  Background="White" FontFamily = "Segoe UI" x:Name="AppMainWindow"
+        Title="WhatsApp Business Ex" Height="1000" MinWidth="1200" Width="1300" KeyDown="Window_KeyDown">
+
+    <Grid x:Name="MainPanel" Margin="0,0.5,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <!--导航栏-->
+        <Border x:Name="NavBar" Grid.Column="0" Background="{Binding MyStyle.MainNavBarColor}">
+            <!--右击实例按钮的菜单-->
+            <Grid x:Name="NavBarGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <!-- 用于扩展空间 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- 用于按钮 -->
+                </Grid.RowDefinitions>
+                <!--导航按钮组 单列-->
+                <ScrollViewer Margin="0,5,0,0" Foreground="DodgerBlue" x:Name="NavigationButtonsGroupA" Style="{StaticResource AutomaticArrowScrollViewer}" Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="NavigationButtons">
+                        <ItemsControl x:Name="NavigationItemsControl" ItemsSource="{Binding BrowserGroups}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <RadioButton MouseRightButtonUp="Button_MouseRightButtonUp" ToolTip="{Binding Tag}" Click="NavigationBtnClick" IsChecked="{Binding BtnIsChecked}"
+                                                 Margin="4" Tag="{Binding Tag}" Width="30" Height="30" 
+                                                 Style="{StaticResource NavigationButton}" GroupName="BrowserGroupA"
+                                                 ToolTipService.InitialShowDelay="500"
+                                                 ToolTipService.ShowDuration="10000"
+                                                 ToolTipService.Placement="Right"
+                                                 ToolTipService.HorizontalOffset="3"
+                                                 ToolTipService.VerticalOffset="-1">
+                                        <!-- 添加上下文菜单 -->
+                                        <RadioButton.ContextMenu>
+                                            <ContextMenu Width="130">
+                                                <MenuItem IsEnabled="False"  StaysOpenOnClick="True" Tag="{Binding Tag}" Width="150">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/Browser.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                    <MenuItem.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <hc:RunningBlock Width="75" BorderThickness="0" Runaway="False"  Padding="0" Content="{Binding Tag}" AutoRun="True"  Foreground="DodgerBlue" Duration="0:0:1"/>
+                                                        </StackPanel>
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <Separator Margin="-30,0,0,0"/>
+                                                <MenuItem StaysOpenOnClick="True"  Width="150">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/Enable.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                    <MenuItem.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="启用" VerticalAlignment="Center"/>
+                                                            <ToggleButton x:Name="Enable" Tag="{Binding Tag}" Click="ContextMenuTapClick" Height="16" IsChecked="{Binding IsEnable}" Style="{StaticResource ToggleButtonSwitch}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                        </StackPanel>
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <MenuItem StaysOpenOnClick="True" Width="150">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/Notification.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                    <MenuItem.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="通知" VerticalAlignment="Center"/>
+                                                            <ToggleButton x:Name="Notify" Tag="{Binding Tag}" Click="ContextMenuTapClick" Height="16" IsChecked="{Binding BrowserModel.IsNotify}" Style="{StaticResource ToggleButtonSwitch}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                        </StackPanel>
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <MenuItem StaysOpenOnClick="True" Width="150">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/Sound.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                    <MenuItem.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="声音" VerticalAlignment="Center"/>
+                                                            <ToggleButton x:Name="Audio" Tag="{Binding Tag}" Click="ContextMenuTapClick" Height="16" IsChecked="{Binding BrowserModel.IsAudio}" Style="{StaticResource ToggleButtonSwitch}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                        </StackPanel>
+                                                    </MenuItem.Header>
+                                                </MenuItem>
+                                                <!-- 调整 Separator 的 Margin 属性 -->
+                                                <Separator Margin="-30,0,0,0"/>
+                                                <MenuItem x:Name="Reload" Tag="{Binding Tag}" Width="150" Header="刷新实例" Click="ContextMenuTapClick">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/Reload.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem x:Name="Set"  Tag="{Binding Tag}" Width="150" Header="实例设置" Click="ContextMenuTapClick">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/Set.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem x:Name="Cache" Tag="{Binding Tag}" Width="150" Header="清除缓存" Click="ContextMenuTapClick">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/Resource/clear.png" Width="16" Height="16"/>
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </RadioButton.ContextMenu>
+                                        <RadioButton.Content>
+                                            <ContentControl Content="{Binding ButtonsModel.IconSource}">
+                                                <ContentControl.Style>
+                                                    <Style TargetType="ContentControl">
+                                                        <Setter Property="ContentTemplate">
+                                                            <Setter.Value>
+                                                                <DataTemplate>
+                                                                    <TextBlock FontSize="16" Foreground="White" FontFamily="Impact" Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                </DataTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ButtonsModel.IconType}" Value="1">
+                                                                <Setter Property="ContentTemplate">
+                                                                    <Setter.Value>
+                                                                        <DataTemplate>
+                                                                            <Ellipse Width="25" Height="25">
+                                                                                <Ellipse.Fill>
+                                                                                    <ImageBrush ImageSource="{Binding}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                                                </Ellipse.Fill>
+                                                                            </Ellipse>
+                                                                        </DataTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ContentControl.Style>
+                                            </ContentControl>
+                                        </RadioButton.Content>
+                                    </RadioButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+                <!--导航按钮组 自动-->
+                <ItemsControl  x:Name="NavigationButtonsGroupB" Margin="5,15,5,5" ItemsSource="{Binding BrowserGroups}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" Height="Auto" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton MouseRightButtonUp="Button_MouseRightButtonUp" ToolTip="{Binding Tag}" Click="NavigationBtnClick" IsChecked="{Binding BtnIsChecked}"
+                         Margin="4" Tag="{Binding Tag}" Width="30" Height="30" 
+                         Style="{StaticResource NavigationButton}" GroupName="BrowserGroupB"
+                         ToolTipService.InitialShowDelay="500"
+                         ToolTipService.ShowDuration="10000"
+                         ToolTipService.Placement="Right"
+                         ToolTipService.HorizontalOffset="3"
+                         ToolTipService.VerticalOffset="-1">
+                                <!-- 添加上下文菜单 -->
+                                <RadioButton.ContextMenu>
+                                    <ContextMenu Width="130">
+                                        <MenuItem IsEnabled="False"  StaysOpenOnClick="True" Tag="{Binding Tag}" Width="150">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Browser.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <hc:RunningBlock Width="75" BorderThickness="0" Runaway="False"  Padding="0" Content="{Binding Tag}" AutoRun="True"  Foreground="DodgerBlue" Duration="0:0:1"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <Separator Margin="-30,0,0,0"/>
+                                        <MenuItem StaysOpenOnClick="True"  Width="150">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Enable.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="启用" VerticalAlignment="Center"/>
+                                                    <ToggleButton x:Name="Enable" Tag="{Binding Tag}" Click="ContextMenuTapClick" Height="16" IsChecked="{Binding IsEnable}" Style="{StaticResource ToggleButtonSwitch}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem StaysOpenOnClick="True" Width="150">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Notification.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="通知" VerticalAlignment="Center"/>
+                                                    <ToggleButton x:Name="Notify" Tag="{Binding Tag}" Click="ContextMenuTapClick" Height="16" IsChecked="{Binding BrowserModel.IsNotify}" Style="{StaticResource ToggleButtonSwitch}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem StaysOpenOnClick="True" Width="150">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Sound.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="声音" VerticalAlignment="Center"/>
+                                                    <ToggleButton x:Name="Audio" Tag="{Binding Tag}" Click="ContextMenuTapClick" Height="16" IsChecked="{Binding BrowserModel.IsAudio}" Style="{StaticResource ToggleButtonSwitch}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <!-- 调整 Separator 的 Margin 属性 -->
+                                        <Separator Margin="-30,0,0,0"/>
+                                        <MenuItem x:Name="Reload" Tag="{Binding Tag}" Width="150" Header="刷新实例" Click="ContextMenuTapClick">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Reload.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem x:Name="Set"  Tag="{Binding Tag}" Width="150" Header="实例设置" Click="ContextMenuTapClick">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/Set.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <MenuItem x:Name="Cache" Tag="{Binding Tag}" Width="150" Header="清除缓存" Click="ContextMenuTapClick">
+                                            <MenuItem.Icon>
+                                                <Image Source="/Resource/clear.png" Width="16" Height="16"/>
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </RadioButton.ContextMenu>
+                                <RadioButton.Content>
+                                    <ContentControl Content="{Binding ButtonsModel.IconSource}">
+                                        <ContentControl.Style>
+                                            <Style TargetType="ContentControl">
+                                                <Setter Property="ContentTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <TextBlock FontSize="16" Foreground="White" FontFamily="Impact" Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ButtonsModel.IconType}" Value="1">
+                                                        <Setter Property="ContentTemplate">
+                                                            <Setter.Value>
+                                                                <DataTemplate>
+                                                                    <Ellipse Width="25" Height="25">
+                                                                        <Ellipse.Fill>
+                                                                            <ImageBrush ImageSource="{Binding}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                                        </Ellipse.Fill>
+                                                                    </Ellipse>
+                                                                </DataTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ContentControl.Style>
+                                    </ContentControl>
+                                </RadioButton.Content>
+                            </RadioButton>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--功能按钮组-->
+                <StackPanel x:Name="AddBtn" Grid.Row="1">
+                    <Button Visibility="{Binding MyStyle.IsEnableAddBtn}" Margin="5" Height="40" Width="40" Tag="Add" Click="ShowSetWindowBtnClick" 
+                            VerticalAlignment="Center"
+                            ToolTip="新增实例"
+ToolTipService.InitialShowDelay="500"
+ToolTipService.ShowDuration="10000"
+ToolTipService.Placement="Right"
+ToolTipService.HorizontalOffset="3"
+ToolTipService.VerticalOffset="3">
+                        <Image Width="25" Source="/Resource/Add_w.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button>
+                    <Button Visibility="{Binding MyStyle.IsEnableExpansionBtn}" Margin="5" Tag="Expansion" Height="40" Width="40" Click="ShowSetWindowBtnClick"  
+                            VerticalAlignment="Center"
+                                                      ToolTip="插件中心"
+ToolTipService.InitialShowDelay="500"
+ToolTipService.ShowDuration="10000"
+ToolTipService.Placement="Right"
+ToolTipService.HorizontalOffset="3"
+ToolTipService.VerticalOffset="3">
+                        <Image Width="25" Source="/Resource/Expansion_w.png"/>
+                    </Button>
+                    <Button Click="IsShowPinBarBtnClick" Visibility="{Binding MyStyle.IsEnableNote}" Margin="5" Height="40" Width="40"  
+                            VerticalAlignment="Center"
+                            ToolTip="待处理客户列表"
+ToolTipService.InitialShowDelay="500"
+ToolTipService.ShowDuration="10000"
+ToolTipService.Placement="Right"
+ToolTipService.HorizontalOffset="3"
+ToolTipService.VerticalOffset="3">
+                        <Image Width="25" Source="/Resource/Note_w.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button>
+                    <Grid x:Name="MessageBoxGrid" Visibility="{Binding MyStyle.IsEnableNotificationBtn}" Margin="5" Height="40" Width="40" 
+                          PreviewMouseLeftButtonDown="SwitchMsgCenterBtnClick"
+                          ToolTip="消息中心"
+ToolTipService.InitialShowDelay="500"
+ToolTipService.ShowDuration="10000"
+ToolTipService.Placement="Right"
+ToolTipService.HorizontalOffset="3"
+ToolTipService.VerticalOffset="3">
+                        <Button Height="40" Width="40" VerticalAlignment="Center">
+                            <Image Width="25" Source="/Resource/Notification_w.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button>
+                        <Border  Visibility="{Binding NewMessageList.NewMessagesCountVisibility}" Background="Red" CornerRadius="10" Height="20" Width="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,0,0">
+                            <TextBlock Text="{Binding NewMessageList.NewMessagesCountDisplay}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                    <Button Visibility="{Binding MyStyle.IsEnableSetBtn}" Margin="5" Height="40" Width="40" Tag="Set" Click="ShowSetWindowBtnClick" 
+                            VerticalAlignment="Center"
+                                                      ToolTip="设置中心"
+ToolTipService.InitialShowDelay="500"
+ToolTipService.ShowDuration="10000"
+ToolTipService.Placement="Right"
+ToolTipService.HorizontalOffset="3"
+ToolTipService.VerticalOffset="3">
+                        <Image Width="25" Source="/Resource/Set_w.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button>
+
+
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--固定布局的主要内容-->
+        <Grid x:Name="MainContent" Background="#F0F2F5" Grid.Column="1" Panel.ZIndex="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--辅助导航条部分-->
+                <Border Grid.Row="0" BorderBrush="#D1D7DB" BorderThickness="0,0,1,0">
+                    <Grid Background="#F0F2F5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition MaxWidth="200" Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--内容区域（浏览器对象视角）-->
+                        <Grid Grid.Column="0">
+                            <TextBlock Margin="10" FontWeight="DemiBold" VerticalAlignment="Center" FontSize="18" Text="WhatsApp Business Ex"/>
+                            <Border Background="Black" Width="200" Height="35" CornerRadius="17.5">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <TextBlock Margin="3,3,10,3" Text="{Binding InfoBarContent.Tag}" HorizontalAlignment="Center" Foreground="DodgerBlue" FontWeight="DemiBold" VerticalAlignment="Center" FontSize="15" />
+                                    <!-- 是否启用 -->
+                                    <Ellipse Margin="3" VerticalAlignment="Center" Width="20" Height="20">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <!-- 默认图片 -->
+                                                        <ImageBrush ImageSource="Resource/Unenable.png" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding InfoBarContent.IsEnable}" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <!-- 布尔值为True时显示的图片 -->
+                                                                <ImageBrush ImageSource="Resource/Enable_w.png" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                    <!-- 是否通知 -->
+                                    <Ellipse Margin="3" VerticalAlignment="Center" Width="20" Height="20">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Setter Property="Fill">
+                                                    <Setter.Value>
+                                                        <!-- 默认图片 -->
+                                                        <ImageBrush ImageSource="Resource/sound_off.png" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding InfoBarContent.IsNotify}" Value="True">
+                                                        <Setter Property="Fill">
+                                                            <Setter.Value>
+                                                                <!-- 布尔值为True时显示的图片 -->
+                                                                <ImageBrush ImageSource="Resource/sound_on.png" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
+                        <!--内容区域（选中用户时）-->
+                        <Grid Visibility="{Binding InfoBarContent.IsObjectOnly}" Background="#F0F2F5" Style="{StaticResource VisibleAnimation}" Grid.Column="0">
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <!--EasyErp按钮（切换视图）公用-->
+                                <Button Click="OpendEasyERPBtnClick" Margin="15,5,15,5" Height="36" Width="36" VerticalAlignment="Center">
+                                    <Grid Width="30" Height="30">
+                                        <Image Width="30" Height="30" RenderOptions.BitmapScalingMode="HighQuality" Source="/Resource/Easyerp/Logo.png">
+                                            <Image.Clip>
+                                                <EllipseGeometry RadiusX="15" RadiusY="15" Center="15,15" />
+                                            </Image.Clip>
+                                        </Image>
+                                    </Grid>
+                                </Button>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Resource/Browser.png" Width="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    <TextBlock FontWeight="DemiBold" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" Text="实例:"/>
+                                    <TextBlock Text="{Binding InfoBarContent.Tag}" Foreground="Gray" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" />
+                                </StackPanel>
+                                <Image Source="/Resource/InfoBar1.png" Width="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock FontWeight="DemiBold" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" Text="名称:"/>
+                                <hc:RunningBlock BorderThickness="0" Runaway="False" MaxWidth="180"  Margin="5" Foreground="Gray" VerticalAlignment="Center" Padding="0" Content="{Binding InfoBarContent.UserName}" FontSize="16" AutoRun="True" Duration="0:0:2"/>
+                                <Image Source="/Resource/InfoBar2.png" Width="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock FontWeight="DemiBold" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" Text="订单数:"/>
+                                <TextBlock Text="{Binding InfoBarContent.NumberOfOrders}" Foreground="Gray" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" />
+                                <Image Source="/Resource/InfoBar3.png" Width="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock FontWeight="DemiBold" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" Text="交易额:"/>
+                                <TextBlock Text="{Binding InfoBarContent.AmountOfOrders}" Foreground="Gray" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" />
+                                <Image Source="/Resource/InfoBar4.png" Width="20" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                <TextBlock FontWeight="DemiBold" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" Text="标签:"/>
+                                <TextBlock Text="{Binding InfoBarContent.Level}" Foreground="Gray" FontFamily = "Segoe UI" Margin="5" FontSize="16" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                        <!--插件区 公用-->
+                        <StackPanel Margin="5" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button Visibility="{Binding InfoBarContent.IsObjectOnly}" Click="OpendEasyERPBtnClick"  Grid.Row="0" Height="40" Width="40" VerticalAlignment="Center">
+                                <Image Width="26" RenderOptions.BitmapScalingMode="HighQuality" Source="/Resource/wallet.png"/>
+                            </Button>
+                            <Button Visibility="{Binding InfoBarContent.IsObjectOnly}" Click="StateManagementBtn_Click"  Grid.Row="0" Height="40" Width="40" VerticalAlignment="Center">
+                                <Image Width="30" RenderOptions.BitmapScalingMode="HighQuality" Source="/Resource/Extensions/Status.png"/>
+                            </Button>
+                            <Button x:Name="RefreshData" Tag="Reload" Grid.Column="1" Click="ContextMenuTapClick" Height="40" Width="40" VerticalAlignment="Center">
+                                <Image Width="22" RenderOptions.BitmapScalingMode="HighQuality" Source="/Resource/Reload.png"/>
+                            </Button>
+                            <Button Style="{StaticResource PinButton}" Visibility="{Binding InfoBarContent.IsObjectOnly}" Click="PinObjectBtnClick"  Grid.Row="0" Height="40" Width="40" VerticalAlignment="Center"/>
+
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="0" BorderBrush="OrangeRed">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="BorderThickness" Value="0,0,0,0"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding InfoBarContent.IsPin}" Value="True">
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+
+                <!--主要内容 WebView2堆叠区和备用区域-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MaxWidth="1430" Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!--主要内容 WebView2堆叠区-->
+                    <Grid Background="#F0F2F5" Grid.Column="0" x:Name="WhatsappTabControl" HorizontalAlignment="Stretch"  CacheMode="BitmapCache" >
+                        <!--默认背景-->
+                        <StackPanel VerticalAlignment="Center" x:Name="BackdropContent" >
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Welcome to use WhatsApp Business Ex" FontSize="24"/>
+                            <StackPanel Visibility="{Binding InfoBarContent.DisableIndication}">
+                                <StackPanel Margin="10" HorizontalAlignment="Center" Orientation="Horizontal">
+                                    <TextBlock FontSize ="18"  Text="当前实例: "/>
+                                    <TextBlock Foreground="DodgerBlue" FontSize ="18" Text="{Binding InfoBarContent.Tag}"/>
+                                    <TextBlock FontSize ="18" Text=" 已禁用"/>
+                                </StackPanel>
+                                <Button Tag="{Binding InfoBarContent.Tag}" Click="EnableBrowserClick" Margin="10" Height="32" Style="{StaticResource ButtonPrimary}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Resource/Enable_w.png"/>
+                                        <TextBlock FontSize ="14" VerticalAlignment="Center" Text="立即启用"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                        <Canvas SizeChanged="WebView2Canvas_SizeChanged" MaxWidth="1430" MinWidth="950" x:Name="WebView2Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Canvas.RenderTransform>
+                                <TranslateTransform x:Name="canvasTransform"/>
+                            </Canvas.RenderTransform>
+                        </Canvas>
+                    </Grid>
+                    <!--备用区域-->
+                    <Border BorderBrush="White" BorderThickness="1,0,0,0" Width="300" Grid.Column="1" Visibility="{Binding IsShowExpansionPanel}"></Border>
+                </Grid>
+            </Grid>
+            <!-- 消息中心 水平导航版本-->
+            <Grid Panel.ZIndex="1" Style="{StaticResource FadeGridStyle}" Width="535" x:Name="NewMessageBox_h1" Visibility="Collapsed" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Canvas Grid.Row="0" Width="30" Height="30" HorizontalAlignment="Right" Margin="0,0,50,0">
+                    <Path Fill="#F0D3D3D3" Data="M 15 0 L 0 15 L 15 30 Z" Canvas.Left="0" Canvas.Top="0">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="90" CenterX="15" CenterY="15"/>
+                        </Path.RenderTransform>
+                    </Path>
+                </Canvas>
+                <!-- 边框 -->
+                <Border Grid.Row="1" MinHeight="250" MinWidth="450" Width="450" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#F0D3D3D3" CornerRadius="8" MaxHeight="530">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5">
+                        <Grid>
+                            <ItemsControl x:Name="messageListControl_h1" ItemsSource="{Binding NewMessageList.NewMessages}" local:NewMessageControl.MessageClicked="OnMessageClicked">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:NewMessageControl Message="{Binding}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock FontSize="25" Text="无消息" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=messageListControl_h1, Path=Items.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+
+        </Grid>
+
+        <!--消息中心 垂直导航版本-->
+        <Popup Name="NewMessageBox_V" HorizontalOffset="60"  PlacementTarget="{Binding ElementName=AppMainWindow}"  Placement="AbsolutePoint" AllowsTransparency="True" PopupAnimation="Scroll">
+            <Grid Width="Auto" Height="Auto" Grid.Column="1" Style="{StaticResource FadeGridStyle}"  HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Canvas Grid.Column="0" Width="50" Height="250" VerticalAlignment="Bottom">
+                    <Path Fill="#F0D3D3D3" Data="M 25 0 L 0 15 L 15 30 Z" Canvas.Left="0" Canvas.Top="165"/>
+                </Canvas>
+                <!-- 边框 -->
+                <Border Grid.Column="1" x:Name="MessageBoxBorder" MinHeight="250" MinWidth="450" MaxHeight="530" Margin="0,5,5,5" Width="450" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#F0D3D3D3" CornerRadius="8" >
+                    <StackPanel>
+                        <Border Margin="10,0,10,0" BorderBrush="DarkGray" BorderThickness="0,0,0,1">
+                            <Grid Margin="15,5,10,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <Ellipse  Width="15" Height="15" Fill="DodgerBlue"/>
+                                    <TextBlock  Margin="5" FontSize="16" VerticalAlignment="Center" FontWeight="DemiBold" Text="消息中心"/>
+                                </StackPanel>
+                                <Button Click="ClearMessageCenterBtn_Click" Grid.Column="1" Width="32" HorizontalAlignment="Right" Height="32" VerticalAlignment="Center">
+                                    <Image Width="20" RenderOptions.BitmapScalingMode="HighQuality" Source="/Resource/clear.png"/>
+                                </Button>
+                            </Grid>
+                        </Border>
+
+                        <Grid>
+                            <!-- 使用 RowDefinition 来给 ItemsControl 和 TextBlock 分配空间 -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <!-- ItemsControl 填满剩余空间 -->
+                                <RowDefinition Height="Auto"/>
+                                <!-- TextBlock 占据自动计算的高度 -->
+                            </Grid.RowDefinitions>
+                            <ListBox BorderThickness="0" Margin="5" Background="Transparent" Grid.Row="0" MaxHeight="465" x:Name="messageListControl_v1" 
+                                              ItemsSource="{Binding NewMessageList.NewMessages}" 
+                                              local:NewMessageControl.MessageClicked="OnMessageClicked">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <!-- 设置默认背景颜色 -->
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <Border x:Name="Border" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <!-- 鼠标划过时背景颜色 -->
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Border" Property="Background" Value="#FFBEBEBE"/>
+                                                        </Trigger>
+                                                        <!-- 禁用边框 -->
+                                                        <Trigger Property="IsEnabled" Value="False">
+                                                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:NewMessageControl Background="Transparent" Message="{Binding}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                            <TextBlock  Grid.Row="1" FontSize="25" Text="无消息" Margin="0,55,0,0" 
+                                            HorizontalAlignment="Center" VerticalAlignment="Stretch" 
+                                            Foreground="Gray">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=messageListControl_v1, Path=Items.Count}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+        </Popup>
+
+        <!--置顶用户列表-->
+        <Border Width="160" Visibility="{Binding MyStyle.IsEnablePinNavBar}" Grid.Column="2" Background="#F0F2F5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid  Background="LightGray" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="0" >
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse  Margin="10,0,20,0" Width="25" Height="25">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="/Resource/pin.png"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock VerticalAlignment="Center" FontSize="16" Text="置顶列表"/>
+                    </StackPanel>
+                </Grid>
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl Margin="0,0,0,0" ItemsSource="{Binding PinUserList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <!-- 动态岛样式按钮 -->
+                                <Border CornerRadius="0" Tag="{Binding ToolTip}" MouseLeftButtonDown="PinBtnSkipBtnClick" Height="40" BorderBrush="LightGray" BorderThickness="0,0,0,0.5"  Margin="0" >
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="#F0F2F5"/>
+                                            <Style.Triggers>
+                                                <!-- 鼠标移入时改变背景颜色 -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="LightGray"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="25"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="-5" Grid.Column="0" ToolTipService.InitialShowDelay="0"
+                                        ToolTipService.ShowDuration="10000"
+                                        ToolTipService.Placement="Right"
+                                        ToolTipService.HorizontalOffset="2"
+                                        ToolTipService.VerticalOffset="2"
+                                        VerticalAlignment="Center" 
+                                        HorizontalAlignment="Left"
+                                        ToolTip="{Binding ToolTip}"
+                                        Background="Transparent" BorderBrush="Transparent">
+                                            <StackPanel>
+                                                <Ellipse Width="32" Height="32" Stroke="LightGray" StrokeThickness="1">
+                                                    <Ellipse.Fill>
+                                                        <ImageBrush ImageSource="{Binding ImageSource}"/>
+                                                    </Ellipse.Fill>
+                                                </Ellipse>
+                                            </StackPanel>
+                                        </Button>
+                                        <hc:RunningBlock Grid.Column="1" BorderThickness="0" Runaway="False" MaxWidth="78"  Margin="3" Foreground="Gray" VerticalAlignment="Center" Padding="0" Content="{Binding Name}" FontSize="13" AutoRun="True" Duration="0:0:5"/>
+                                        <Button Tag="{Binding ToolTip}" VerticalAlignment="Center" Click="RemovePinUser_Click"  Margin="3" Grid.Column="2" Style="{StaticResource CloseButtonStyle}"/>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

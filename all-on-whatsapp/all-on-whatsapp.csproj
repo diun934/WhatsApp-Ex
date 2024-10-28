@@ -1,0 +1,486 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<RootNamespace>all_on_whatsapp</RootNamespace>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>whatsapp.ico</ApplicationIcon>
+		<!-- 仅包括英语和中文资源 -->
+		<SatelliteResourceLanguages>en;zh-Hans</SatelliteResourceLanguages>
+		<SignAssembly>False</SignAssembly>
+		<Version>$(VersionPrefix)</Version>
+		<AssemblyVersion>1.3.0.0</AssemblyVersion>
+		<FileVersion>1.3.0.0</FileVersion>
+		<Copyright>X-M-A Studio</Copyright>
+		<NeutralLanguage>zh</NeutralLanguage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="browserConfig.json" />
+		<None Remove="Helper\JavaScript\AutoSendStatus.js" />
+		<None Remove="Helper\JavaScript\GetSelectorObject.js" />
+		<None Remove="Helper\JavaScript\MonitorUnread.js" />
+		<None Remove="Helper\JavaScript\objectMonitoring.js" />
+		<None Remove="Helper\JavaScript\receiveNotification.js" />
+		<None Remove="Helper\JavaScript\replaceCustomerName.js" />
+		<None Remove="Helper\JavaScript\SoundSwitch.js" />
+		<None Remove="Helper\JavaScript\SubmitClickSender.js" />
+		<None Remove="Helper\JavaScript\SubstituteMessage.js" />
+		<None Remove="Resource\Add.png" />
+		<None Remove="Resource\Add_w.png" />
+		<None Remove="Resource\bin.png" />
+		<None Remove="Resource\bin_w.png" />
+		<None Remove="Resource\Brand\a163Mail.png" />
+		<None Remove="Resource\Brand\facebook.png" />
+		<None Remove="Resource\Brand\google.png" />
+		<None Remove="Resource\Brand\line.png" />
+		<None Remove="Resource\Brand\messenger.png" />
+		<None Remove="Resource\Brand\outlook.png" />
+		<None Remove="Resource\Brand\teregram.png" />
+		<None Remove="Resource\Brand\wechat.png" />
+		<None Remove="Resource\Brand\whatsapp.png" />
+		<None Remove="Resource\Browser.png" />
+		<None Remove="Resource\Cache.png" />
+		<None Remove="Resource\Check.png" />
+		<None Remove="Resource\clear.png" />
+		<None Remove="Resource\clear_w.png" />
+		<None Remove="Resource\Client_w.png" />
+		<None Remove="Resource\Cose.png" />
+		<None Remove="Resource\CustomerCount.png" />
+		<None Remove="Resource\Data.png" />
+		<None Remove="Resource\DefaultAvatar.png" />
+		<None Remove="Resource\Easyerp\burger.png" />
+		<None Remove="Resource\Easyerp\card.png" />
+		<None Remove="Resource\Easyerp\chart.png" />
+		<None Remove="Resource\Easyerp\client.png" />
+		<None Remove="Resource\Easyerp\dashboard.png" />
+		<None Remove="Resource\Easyerp\Logo.png" />
+		<None Remove="Resource\Easyerp\plus-2.png" />
+		<None Remove="Resource\Easyerp\repeat.png" />
+		<None Remove="Resource\Easyerp\vector.png" />
+		<None Remove="Resource\Enable.png" />
+		<None Remove="Resource\Enable_w.png" />
+		<None Remove="Resource\Expansion_w.png" />
+		<None Remove="Resource\Extension.png" />
+		<None Remove="Resource\Extensions\Apple.png" />
+		<None Remove="Resource\Extensions\BigData.png" />
+		<None Remove="Resource\Extensions\BTC.png" />
+		<None Remove="Resource\Extensions\ChatGPT.png" />
+		<None Remove="Resource\Extensions\Defense.png" />
+		<None Remove="Resource\Extensions\DisableUpgrade.png" />
+		<None Remove="Resource\Extensions\Like.png" />
+		<None Remove="Resource\Extensions\Naira.png" />
+		<None Remove="Resource\Extensions\Status.png" />
+		<None Remove="Resource\Extensions\USDT.png" />
+		<None Remove="Resource\Extensions\youdao.png" />
+		<None Remove="Resource\Flip.png" />
+		<None Remove="Resource\gear-settings.png" />
+		<None Remove="Resource\gear-settings_w.png" />
+		<None Remove="Resource\handy.jpg" />
+		<None Remove="Resource\Import.png" />
+		<None Remove="Resource\Import_w.png" />
+		<None Remove="Resource\InfoBar1.png" />
+		<None Remove="Resource\InfoBar2.png" />
+		<None Remove="Resource\InfoBar3.png" />
+		<None Remove="Resource\InfoBar4.png" />
+		<None Remove="Resource\Link.png" />
+		<None Remove="Resource\MoreInfo.png" />
+		<None Remove="Resource\Note_w.png" />
+		<None Remove="Resource\Notification.png" />
+		<None Remove="Resource\Notification_w.png" />
+		<None Remove="Resource\pin.png" />
+		<None Remove="Resource\Pin_A.png" />
+		<None Remove="Resource\Pin_B.png" />
+		<None Remove="Resource\Reload.png" />
+		<None Remove="Resource\Select.png" />
+		<None Remove="Resource\Set.png" />
+		<None Remove="Resource\Set_w.png" />
+		<None Remove="Resource\sound-on.png" />
+		<None Remove="Resource\Sound.png" />
+		<None Remove="Resource\sound_off.png" />
+		<None Remove="Resource\sound_on.png" />
+		<None Remove="Resource\Star.png" />
+		<None Remove="Resource\target.png" />
+		<None Remove="Resource\timer.png" />
+		<None Remove="Resource\Translate.png" />
+		<None Remove="Resource\Unenable.png" />
+		<None Remove="Resource\wallet.png" />
+		<None Remove="Resource\Window_close.png" />
+		<None Remove="Resource\Ws1.jpg" />
+		<None Remove="Resource\Ws2.jpg" />
+		<None Remove="Resource\Ws3.png" />
+		<None Remove="Resource\Ws4.png" />
+		<None Remove="Resource\youdao.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Helper\JavaScript\replaceCustomerName.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\burger.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\chart.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\dashboard.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\client.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\plus-2.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\repeat.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Easyerp\vector.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\pin.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Pin_A.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Pin_B.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\sound_off.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\sound_on.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Unenable.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\wallet.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Helper\JavaScript\SoundSwitch.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\bin.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\bin_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Check.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\clear.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\clear_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\BTC.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\USDT.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Helper\JavaScript\AutoSendStatus.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Helper\JavaScript\GetSelectorObject.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Helper\JavaScript\SubstituteMessage.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Helper\JavaScript\MonitorUnread.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Helper\JavaScript\SubmitClickSender.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Helper\JavaScript\ReceiveNotification.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Helper\JavaScript\ObjectMonitoring.js">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Add.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Add_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\a163Mail.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\facebook.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\google.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\line.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\messenger.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\outlook.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\teregram.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\wechat.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Brand\whatsapp.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Browser.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Cache.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Client_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Cose.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\CustomerCount.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Data.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\DefaultAvatar.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Enable.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Enable_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Expansion_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extension.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\Apple.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\BigData.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\ChatGPT.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\Defense.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\DisableUpgrade.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\Like.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\Naira.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\Status.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Extensions\youdao.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Flip.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\gear-settings.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\gear-settings_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\handy.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Import.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Import_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\InfoBar1.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\InfoBar2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\InfoBar3.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\InfoBar4.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Link.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Note_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Notification.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Notification_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Reload.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Select.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Set.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Set_w.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\sound-on.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Sound.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Star.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\target.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\timer.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Translate.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Window_close.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Ws1.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Ws2.jpg">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Ws3.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\Ws4.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Resource\youdao.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="whatsapp.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Resource\MoreInfo.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
+		<PackageReference Include="HandyControl" Version="3.5.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2792.45" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Helper\utils\AuthV3Util.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+		<Compile Update="Helper\utils\AuthV4Util.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+		<Compile Update="Helper\utils\HttpUtil.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+		<Compile Update="Helper\utils\WebsocketUtil.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+		<Compile Update="Properties\Resources.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Update="chromiumembeddedframework.runtime.win-arm64" Version="125.0.21" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Update="chromiumembeddedframework.runtime.win-x64" Version="125.0.21" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Update="chromiumembeddedframework.runtime.win-x86" Version="125.0.21" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Config\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="C:\Users\Administrator\.nuget\packages\autoitx.dotnet\3.3.14.5\build\AutoItX3.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="C:\Users\Administrator\.nuget\packages\autoitx.dotnet\3.3.14.5\build\AutoItX3.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="C:\Users\Administrator\.nuget\packages\autoitx.dotnet\3.3.14.5\build\AutoItX3_x64.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resource\Easyerp\card.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resource\Easyerp\Logo.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>

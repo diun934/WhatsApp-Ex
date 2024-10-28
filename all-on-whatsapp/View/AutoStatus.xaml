@@ -1,0 +1,75 @@
+﻿<Window x:Class="all_on_whatsapp.View.AutoStatus"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:all_on_whatsapp.View" xmlns:hc="https://handyorg.github.io/handycontrol" ResizeMode="CanMinimize"
+        mc:Ignorable="d" FontFamily = "Segoe UI"
+        Title="WhatsApp 一键发送动态" Height="450" Width="800">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Margin="5" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" CornerRadius="6">
+                <StackPanel>
+                    <TextBlock FontSize="16" Margin="10" Text="在此选择动态内容图片"/>
+                    <UniformGrid Margin="5">
+                        <hc:ImageSelector x:Name="StatusImageSelector" StrokeDashArray="0" Width="420" Height="215"/>
+                    </UniformGrid>
+                </StackPanel>
+               
+            </Border>
+            <Border Grid.Row="0" Margin="5" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" CornerRadius="6">
+                <StackPanel>
+                    <TextBlock FontSize="16" Margin="10" Text="*在此输入动态文本"/>
+                    <TextBox BorderThickness="0" FontSize="15" TextWrapping="Wrap" AcceptsReturn="True" x:Name="StatusTextContent" Width="420" Height="220"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Margin="5" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" CornerRadius="6">
+                <StackPanel Margin="5">
+                    <TextBlock FontSize="16" Margin="10" Text="*在此选择发送对象"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <WrapPanel x:Name="CheckboxList" Orientation="Horizontal">
+                            <!-- 这里动态添加CheckBox或其他内容 -->
+                        </WrapPanel>
+                    </ScrollViewer>
+
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Margin="5" Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" CornerRadius="6">
+                <Grid Margin="60">
+                    <!-- 定义两行 -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <!-- 第一行占剩余空间的一半 -->
+                        <RowDefinition Height="*"/>
+                        <!-- 第二行占剩余空间的一半 -->
+                    </Grid.RowDefinitions>
+
+                    <!-- 定义两列 -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <!-- 第一列占剩余空间的一半 -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- 第二列占剩余空间的一半 -->
+                    </Grid.ColumnDefinitions>
+                    <!-- 第一行第一列的按钮 -->
+                    <Button Grid.Row="0" Grid.Column="0" Height="200" Width="200" Click="ManageTaskBtn_Click" Tag="Start" Margin="0" FontSize="15" Style="{StaticResource ButtonPrimary}" Content="开始任务"/>
+                    <!-- 第一行第二列的按钮 -->
+                    <Button Grid.Row="0" Click="ManageTaskBtn_Click" Tag="Stop" Grid.Column="1" Height="200" Width="200" Margin="0" FontSize="15" Style="{StaticResource ButtonDanger}" Content="停止任务"/>
+
+                    <!-- 第二行第一列的按钮 -->
+                    <Button Grid.Row="1" Click="ManageTaskBtn_Click" Tag="Timing" Grid.Column="0" Height="200" Width="200" Margin="0" FontSize="15" Style="{StaticResource ButtonInfo}" Content="定时任务"/>
+                    <!-- 第二行第二列的按钮 -->
+                    <Button Grid.Row="1" Click="ManageTaskBtn_Click" Tag="Exit" Grid.Column="1" Height="200" Width="200" Margin="0" FontSize="15" Style="{StaticResource ButtonWarning}" Content="退出任务"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,523 @@
+﻿<hc:Window x:Class="all_on_whatsapp.SetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" FontFamily = "Segoe UI"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:all_on_whatsapp" xmlns:hc="http://schemas.microsoft.com/netfx/2009/xaml/presentation" 
+        xmlns:hc1="https://handyorg.github.io/handycontrol" 
+        mc:Ignorable="d" WindowState="Normal" ShowInTaskbar="False" FontSize="14" 
+       ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" Background="Transparent"
+        Title="WhatsApp Business Ex" Height="450" Width="800">
+
+    <Grid>
+        <Border>
+            <hc:TabControl  Style="{StaticResource TabControlInLine}" x:Name="MainTabControl">
+                <!--增加服务-->
+                <TabItem x:Name="BrowserManagementTabItem" Height="50" Header="实例管理">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="55"/>
+                        </Grid.RowDefinitions>
+                        <!--实例操作-->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="450"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <!--实例内容-->
+                            <StackPanel Grid.Column="0" Margin="25">
+                                <StackPanel Margin="0,0,0,15">
+                                    <StackPanel>
+                                        <hc:TextBlock FontWeight="DemiBold" Text="项目*" Margin="3"/>
+                                        <hc:ComboBox SelectionChanged="InstanceTypeComboBox_SelectionChanged"  ItemsSource="{Binding Set_BrowMge.ItemTypes}" DisplayMemberPath="Name" x:Name="InstanceTypeComboBox" Height="35" SelectedIndex="{Binding Set_BrowMge.BrowserGrop.ItemType}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <StackPanel>
+                                            <hc:TextBlock FontWeight="DemiBold" Text="名称*" Margin="3"/>
+                                            <hc:TextBox  Width="250" Height="35" Margin="3" Text="{Binding Set_BrowMge.BrowserGrop.Tag}"/>
+                                        </StackPanel>
+                                        <StackPanel>
+                                            <hc:TextBlock FontWeight="DemiBold" Text="图标名称*" Margin="3"/>
+                                            <hc:TextBox Width="140" Height="35" Margin="3" Text="{Binding Set_BrowMge.BrowserGrop.ButtonsModel.IconSource}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <hc:TextBlock FontWeight="DemiBold" Text="通知设置" Margin="3"/>
+                                        <StackPanel Margin="5,0,5,0">
+                                            <StackPanel Orientation="Horizontal">
+                                                <hc:CheckBox Margin="10" IsChecked="{Binding Set_BrowMge.BrowserGrop.BrowserModel.IsNotify}" Content="启用通知"/>
+                                                <hc:TextBlock FontSize="12" Foreground="Gray" Text="禁用后，将不在接收通知" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <StackPanel Orientation="Horizontal">
+                                                <hc:CheckBox Margin="10" IsChecked="{Binding Set_BrowMge.BrowserGrop.BrowserModel.IsAudio}"  Content="启用声音"/>
+                                                <hc:TextBlock FontSize="12" Foreground="Gray" Text="禁用后，所有通知将静音" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <hc:TextBlock Text="未读消息微章" Margin="3,10,3,3"/>
+                                        <StackPanel Margin="5,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_BrowMge.BrowserGrop.ButtonsModel.IsUnread}"  Content="显示未读消息微章"/>
+                                        </StackPanel>
+                                        <hc:TextBlock Text="是否启用服务" Margin="3,10,3,3"/>
+                                        <StackPanel Margin="5,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_BrowMge.BrowserGrop.IsEnable}"  Content="是否启用服务"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                            <!--图标选择-->
+                            <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="0,20,0,20" VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <!--图标选择-->
+                                <Grid Grid.Row="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <hc:TextBlock Grid.Row="0" FontWeight="DemiBold" Text="图标选择*" Margin="3"/>
+                                    <WrapPanel x:Name="IconSelect" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Orientation="Horizontal">
+                                        <RadioButton  x:Name="whatsapp" Checked="SelectIcon_Checked" IsChecked="True" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/whatsapp.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="facebook" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/facebook.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="messenger" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/messenger.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="googleMail" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/google.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="a163Mail" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/a163Mail.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="outlook" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/outlook.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="wechat" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/wechat.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="line" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/line.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton  x:Name="teregram" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="35" Height="35">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/teregram.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>
+                                        <RadioButton Name="textIcon" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <TextBlock FontSize="18" FontFamily="Impact"  Text="{Binding Set_BrowMge.BrowserGrop.ButtonsModel.IconSource}"/>
+                                        </RadioButton>
+                                        <!--自定义图标-->
+                                        <!--<RadioButton  Name="link" Checked="SelectIcon_Checked" Margin="5" Tag="NoBadge" Width="42" Height="42" Style="{StaticResource SelectedButton}">
+                                            <Ellipse Width="25" Height="25">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Link.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </RadioButton>-->
+                                    </WrapPanel>
+                                </Grid>
+                                <!--系统代理-->
+                                <StackPanel Margin="0,20,0,0" HorizontalAlignment="Left" Grid.Row="1">
+                                    <StackPanel>
+                                        <StackPanel>
+                                            <StackPanel Margin="3,3,3,15" Orientation="Horizontal">
+                                                <hc:TextBlock FontWeight="DemiBold" Margin="3" Text="实例代理" />
+                                                <CheckBox Margin="3" Content="启用代理" IsChecked="{Binding Set_BrowMge.BrowserGrop.BrowserModel.IsEnableProxy}"/>
+                                            </StackPanel>
+                                            <StackPanel Width="Auto" IsEnabled="{Binding Set_BrowMge.BrowserGrop.BrowserModel.IsEnableProxy}">
+                                                <StackPanel  Orientation="Horizontal">
+                                                    <TextBlock Text="地址:" Margin="5" VerticalAlignment="Center"/>
+                                                    <hc:TextBox Width="120" Height="35" Margin="3" Text="{Binding Set_BrowMge.BrowserGrop.BrowserModel.IpAddress}"/>
+                                                    <TextBlock Text="端口:" Margin="5" VerticalAlignment="Center"/>
+                                                    <hc:TextBox Width="115" Height="35" Margin="3" Text="{Binding Set_BrowMge.BrowserGrop.BrowserModel.Port}"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="用户:" Margin="5" VerticalAlignment="Center"/>
+                                                    <hc:TextBox Width="120" Height="35" Margin="3" Text="{Binding Set_BrowMge.BrowserGrop.BrowserModel.User}"/>
+                                                    <TextBlock Text="密码:" Margin="5" VerticalAlignment="Center"/>
+                                                    <hc:TextBox Width="115" Height="35" Margin="3" Text="{Binding Set_BrowMge.BrowserGrop.BrowserModel.Password}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--页面缩放-->
+                                <StackPanel Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="2">
+                                    <StackPanel Margin="0,0,0,15">
+                                        <StackPanel>
+                                            <hc:TextBlock FontWeight="DemiBold" Text="页面管理" Margin="3"/>
+                                            <StackPanel Margin="3" Orientation="Horizontal">
+                                                <TextBlock Text="页面缩放：" VerticalAlignment="Center"/>
+                                                <hc:ComboBox x:Name="ZoomFactorComboBox" Width="255" Height="35" SelectedIndex="0">
+                                                    <ComboBoxItem Content="100%"/>
+                                                    <ComboBoxItem Content="120%"/>
+                                                    <ComboBoxItem Content="150%"/>
+                                                    <ComboBoxItem Content="180%"/>
+                                                    <ComboBoxItem Content="200%"/>
+                                                </hc:ComboBox>
+                                            </StackPanel>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                            <!--滚动选择实例-->
+                            <Border x:Name="InstanceListBox" Grid.Column="2" Visibility="Collapsed" Width="60" Background="WhiteSmoke" BorderBrush="LightGray" BorderThickness="1,0,0,0">
+                                <!--滚动选择-->
+                                <ScrollViewer  Style="{StaticResource AutomaticArrowScrollViewer}"   VerticalScrollBarVisibility="Auto">
+                                    <StackPanel  x:Name="NavigationBtns" Margin="0" VerticalAlignment="Center">
+                                        <ItemsControl ItemsSource="{Binding Set_BrowMge.BrowserGroups}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <RadioButton IsChecked="{Binding IsChecked}" Click="BrowserSwitchRadioButton_Click" Margin="4" Tag="{Binding Tag}" Width="35" Height="35" Style="{StaticResource SelectedButton}" GroupName="BrowserGroup">
+                                                        <RadioButton.Content>
+                                                            <ContentControl Content="{Binding ButtonsModel.IconSource}">
+                                                                <ContentControl.Style>
+                                                                    <Style TargetType="ContentControl">
+                                                                        <Setter Property="ContentTemplate">
+                                                                            <Setter.Value>
+                                                                                <DataTemplate>
+                                                                                    <TextBlock FontSize="18" FontFamily="Impact" Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                                                </DataTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding ButtonsModel.IconType}" Value="1">
+                                                                                <Setter Property="ContentTemplate">
+                                                                                    <Setter.Value>
+                                                                                        <DataTemplate>
+                                                                                            <Ellipse Width="25" Height="25">
+                                                                                                <Ellipse.Fill>
+                                                                                                    <ImageBrush ImageSource="{Binding}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                                                                </Ellipse.Fill>
+                                                                                            </Ellipse>
+                                                                                        </DataTemplate>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </ContentControl.Style>
+                                                            </ContentControl>
+                                                        </RadioButton.Content>
+                                                    </RadioButton>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+
+                                </ScrollViewer>
+                            </Border>
+                        </Grid>
+                        <!--实例操作-->
+                        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0.5,0,0" Background="LightGray">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                                    <hc:Button Visibility="{Binding Set_BrowMge.IsShowDeltelBtn}" Height="35" FontSize="14" Tag="m1" Click="SetManagement_Click" Margin="0,0,5,0" Style= "{StaticResource ButtonDanger}">删除实例</hc:Button>
+                                    <hc:Button Visibility="{Binding Set_BrowMge.IsShowUpdate}" Height="35" FontSize="14" Tag="m2" Click="SetManagement_Click"  Margin="0,0,5,0" Style= "{StaticResource ButtonSuccess}" Content="{Binding Set_BrowMge.BtnText1}"/>
+                                    <hc:Button Height="35" FontSize="14" Tag="m3" Click="SetManagement_Click" Style= "{StaticResource ButtonPrimary}" Content="{Binding Set_BrowMge.BtnText2}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="插件市场" Height="50">
+                    <Grid HorizontalAlignment="Center">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Set_Ex.Extensions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal" />
+                                        <!-- 设置WrapPanel为ItemsPanel -->
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="WhiteSmoke" CornerRadius="8" Width="275" Height="150" Margin="8">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="40"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid Grid.Row="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel VerticalAlignment="Center" Grid.Column="0">
+                                                        <Ellipse Margin="5" Width="80" Height="80">
+                                                            <Ellipse.Fill>
+                                                                <ImageBrush ImageSource="{Binding IconResource}" />
+                                                            </Ellipse.Fill>
+                                                        </Ellipse>
+                                                    </StackPanel>
+                                                    <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1" Margin="5" Text="{Binding Description}"/>
+                                                </Grid>
+                                                <Border CornerRadius="0,0,8,8" Grid.Row="1" Background="Gray">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Margin="5" VerticalAlignment="Center" Foreground="White" Text="{Binding Name}" FontSize="16" FontWeight="DemiBold"/>
+                                                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                            <Button IsEnabled="{Binding IsEnable}" Grid.Column="1" Margin="5" HorizontalAlignment="Right" Width="30" Height="30">
+                                                                <Ellipse Margin="0,0,0,0" Width="16" Height="16">
+                                                                    <Ellipse.Fill>
+                                                                        <ImageBrush ImageSource="/Resource/Check.png" />
+                                                                    </Ellipse.Fill>
+                                                                </Ellipse>
+                                                            </Button>
+                                                            <Button Margin="3" HorizontalAlignment="Right" Width="30" Height="30">
+                                                                <Ellipse Margin="5" Width="16" Height="16">
+                                                                    <Ellipse.Fill>
+                                                                        <ImageBrush ImageSource="/Resource/Import_w.png" />
+                                                                    </Ellipse.Fill>
+                                                                </Ellipse>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="系统设置" Height="50">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="55"/>
+                        </Grid.RowDefinitions>
+                        <!--内容部分-->
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="250"/>
+                            </Grid.ColumnDefinitions>
+                            <!--常规设置-->
+                            <StackPanel Grid.Column="0" Margin="20">
+                                <StackPanel>
+                                    <StackPanel>
+                                        <hc:TextBlock FontWeight="DemiBold" Text="语言" Margin="3"/>
+                                        <hc:ComboBox SelectedIndex="{Binding Set_Appset.Appsetings.Language}" ItemsSource="{Binding Set_Appset.LanguageList}" Height="35"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10,0,0">
+                                        <hc:TextBlock FontWeight="DemiBold" Text="主题" Margin="3"/>
+                                        <hc:ComboBox SelectedIndex="{Binding Set_Appset.Appsetings.Style}" ItemsSource="{Binding Set_Appset.StyleList}" Height="35"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="0,10,0,0">
+                                        <hc:TextBlock FontWeight="DemiBold" Text="导航条位置" Margin="3"/>
+                                        <hc:ComboBox SelectedIndex="{Binding Set_Appset.Appsetings.NavBarPosition}" ItemsSource="{Binding Set_Appset.NavBarPositionList}" Height="35"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <hc:TextBlock FontWeight="DemiBold" Text="启用DPI支持" Margin="3,10,3,3"/>
+                                        <StackPanel Margin="5,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsDpi}"  Content="是否启用DPI支持"/>
+                                        </StackPanel>
+                                        <hc:TextBlock FontWeight="DemiBold" Text="启用硬件加速" Margin="3,10,3,3"/>
+                                        <StackPanel Margin="5,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsGpu}"  Content="是否启用硬件加速"/>
+                                        </StackPanel>
+                                        <hc:TextBlock FontWeight="DemiBold" Text="总是置于其他应用之上" Margin="3,10,3,3"/>
+                                        <StackPanel Margin="5,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsTop}"  Content="窗口置顶"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                            <!--第二列-->
+                            <Grid Grid.Column="1" HorizontalAlignment="Left" Margin="0,20,0,20" VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!--图标显示-->
+                                <StackPanel Grid.Row="0">
+                                    <hc:TextBlock FontWeight="DemiBold" Text="图标显示" Margin="3,10,3,3"/>
+                                    <StackPanel  Margin="10,0,10,0" Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsExpansionIcon}"  Content="显示插件市场图标"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsShowTray}"  Content="启用系统托盘图标"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Margin="10,0,10,0" Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsAddIcon}"  Content="显示添加实例图标"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsPinIcon}"  Content="显示置顶中心图标"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--其他-->
+                                <StackPanel Grid.Row="1">
+                                    <hc:TextBlock FontWeight="DemiBold" Text="其他" Margin="3,10,3,3"/>
+                                    <StackPanel Margin="10,0,10,0" Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsUpdate}"  Content="启用软件自动更新"/>
+                                        </StackPanel>
+                                        <StackPanel  Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsNumberAnalysis}"  Content="启用号码数据分析"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel  Margin="10,0,10,0" Orientation="Horizontal">
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsShowTaskBar}"  Content="软件显示在任务栏"/>
+                                        </StackPanel>
+                                        <StackPanel Margin="0,0,5,0">
+                                            <hc:CheckBox Margin="10" IsChecked="{Binding Set_Appset.Appsetings.IsToastNotice}"  Content="启用实例吐司通知"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                                <!--凭证-->
+                                <StackPanel Grid.Row="2">
+                                    <hc:TextBlock FontWeight="DemiBold" Text="凭证" Margin="3,10,3,5"/>
+                                    <StackPanel Margin="15,0,0,0" Orientation="Horizontal">
+                                        <TextBlock Margin="3" VerticalAlignment="Center" Text="用户:"/>
+                                        <TextBox Text="{Binding Set_Appset.Appsetings.User}" Height="35" Margin="3" Width="100"/>
+                                        <TextBlock Margin="3" VerticalAlignment="Center" Text="密码:"/>
+                                        <TextBox Text="{Binding Set_Appset.Appsetings.Password}" Height="35" Margin="3" Width="100"/>
+                                    </StackPanel>
+                                    <StackPanel Margin="15,5,0,0" Orientation="Horizontal">
+                                        <TextBlock Margin="3" VerticalAlignment="Center" Text="密钥:"/>
+                                        <TextBox Text="{Binding Set_Appset.Appsetings.Key}" Height="35" Margin="3" Width="245"/>
+                                    </StackPanel>
+
+                                </StackPanel>
+                                <!--鸣谢支持-->
+                                <StackPanel Grid.Row="3">
+                                    <hc:TextBlock FontWeight="DemiBold" Text="鸣谢支持" Margin="3,10,3,3"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Margin="5" Width="40" Height="40">
+                                            <Ellipse Width="38" Height="38">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/handy.jpg" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Button>
+                                        <Button Margin="5" Width="40" Height="40">
+                                            <Ellipse Width="40" Height="40">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush ImageSource="/Resource/Brand/whatsapp.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+
+                            </Grid>
+                            <!--第三列-->
+                            <Grid Margin="0,20,0,0" Grid.Column="2">
+                                <StackPanel>
+                                    <StackPanel Grid.Row="0">
+                                        <hc:TextBlock FontWeight="DemiBold" Text="快捷键" Margin="3,10,3,3"/>
+                                        <StackPanel  Margin="10,0,10,0" Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="翻译:"/>
+                                            <hc:ComboBox SelectedIndex="{Binding Set_Appset.Appsetings.TranslateKey}" Width="180" Height="35">
+                                                <ComboBoxItem Content="F1"/>
+                                                <ComboBoxItem Content="F2"/>
+                                                <ComboBoxItem Content="F3"/>
+                                                <ComboBoxItem Content="F4"/>
+                                                <ComboBoxItem Content="F5"/>
+                                                <ComboBoxItem Content="F6"/>
+                                                <ComboBoxItem Content="F7"/>
+                                                <ComboBoxItem Content="F8"/>
+                                                <ComboBoxItem Content="F9"/>
+                                                <ComboBoxItem Content="F10"/>
+                                                <ComboBoxItem Content="F11"/>
+                                                <ComboBoxItem Content="F12"/>
+                                            </hc:ComboBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="0">
+                                        <hc:TextBlock FontWeight="DemiBold" Text="导航模式" Margin="3,10,3,3"/>
+                                        <StackPanel  Margin="10,0,10,0" Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,5,0" VerticalAlignment="Center" Text="侧边:"/>
+                                            <hc:ComboBox SelectedIndex="{Binding Set_Appset.Appsetings.NavigationWidthMode}" Width="180" Height="35">
+                                                <ComboBoxItem Content="单列"/>
+                                                <ComboBoxItem Content="自动"/>
+                                            </hc:ComboBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                        <!--实例操作-->
+                        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,0.5,0,0" Background="LightGray">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                                    <hc:Button Height="35"  FontSize="14" Tag="RestoreDefault" Click="SetManagement_Click"  Margin="0,0,5,0" Style= "{StaticResource ButtonDanger}">恢复默认</hc:Button>
+                                    <hc:Button Height="35" FontSize="14" Tag="Save" Click="SetManagement_Click" Style= "{StaticResource ButtonPrimary}">保存配置</hc:Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </TabItem>
+
+            </hc:TabControl>
+        </Border>
+    </Grid>
+
+</hc:Window>
